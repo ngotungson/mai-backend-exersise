@@ -7,6 +7,7 @@ from core import views as core_views
 
 api_router = routers.DefaultRouter(trailing_slash=False)
 api_router.register(r"schools", core_views.SchoolViewSet)
+api_router.register(r"teachers", core_views.TeacherViewSet)
 
 
 urlpatterns =  [

@@ -6,6 +6,7 @@ from core.models import School, Course, Student
 
 class TransferViewsTestCase(APITestCase):
     def setUp(self) -> None:
+        self.base_url = "/api/transfer"
         self.school_test = School.objects.create(name="VietNam National University")
         self.student = Student.objects.create(name="Luong", school=self.school_test)
         self.course1 = Course.objects.create(
@@ -22,14 +23,13 @@ class TransferViewsTestCase(APITestCase):
 
     def test_transfer_success(self):
 
-        url = "/api/transfer"
         data = {
             "studentId": self.student.pk,
             "fromCourseId": self.course1.pk,
             "toCourseId": self.course2.pk,
         }
 
-        response = self.client.post(url, data, format="json")
+        response = self.client.post(self.base_url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         student_removed = (
@@ -40,49 +40,41 @@ class TransferViewsTestCase(APITestCase):
         self.assertTrue(student_added)
 
     def test_not_found_student(self):
-
-        url = "/api/transfer"
         data = {
             "studentId": 123456789,
             "fromCourseId": self.course1.pk,
             "toCourseId": self.course2.pk,
         }
 
-        response = self.client.post(url, data, format="json")
+        response = self.client.post(self.base_url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_not_found_fromCourse(self):
-
-        url = "/api/transfer"
         data = {
             "studentId": self.student.pk,
             "fromCourseId": 123456789,
             "toCourseId": self.course2.pk,
         }
 
-        response = self.client.post(url, data, format="json")
+        response = self.client.post(self.base_url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_not_found_toCourse(self):
-
-        url = "/api/transfer"
         data = {
             "studentId": self.student.pk,
             "fromCourseId": self.course1.pk,
             "toCourseId": 123456789,
         }
 
-        response = self.client.post(url, data, format="json")
+        response = self.client.post(self.base_url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_not_found_student_in_course(self):
-
-        url = "/api/transfer"
         data = {
             "studentId": self.student.pk,
             "fromCourseId": self.course2.pk,
             "toCourseId": self.course1.pk,
         }
 
-        response = self.client.post(url, data, format="json")
+        response = self.client.post(self.base_url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)

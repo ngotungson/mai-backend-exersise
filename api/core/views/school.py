@@ -48,26 +48,6 @@ class SchoolViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
         return JsonResponse(json_res, safe=False)
 
 
-class CourseViewSet(viewsets.ModelViewSet):
-    queryset = Course.objects.all()
-    serializer_class = CourseSerializer
-
-
-class TeacherViewSet(viewsets.ModelViewSet):
-    queryset = Teacher.objects.all()
-    serializer_class = TeacherSerializer
-
-
-class SchoolAdministratorViewSet(viewsets.ModelViewSet):
-    queryset = SchoolAdministrator.objects.all()
-    serializer_class = SchoolAdministratorSerializer
-
-
-class StudentViewSet(viewsets.ModelViewSet):
-    queryset = Student.objects.all()
-    serializer_class = StudentSerializer
-
-
 @action(
     methods=["post"],
     detail=False,

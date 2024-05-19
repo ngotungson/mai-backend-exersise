@@ -5,7 +5,12 @@ from django.urls import include, path
 from rest_framework import routers
 
 
-from core.views import *
+from core.views.school import SchoolViewSet, transfer
+from core.views.course import CourseViewSet
+from core.views.teacher import TeacherViewSet
+from core.views.student import StudentViewSet
+from core.views.school_administrator import SchoolAdministratorViewSet
+
 
 api_router = routers.DefaultRouter(trailing_slash=False)
 api_router.register(r"schools", SchoolViewSet)

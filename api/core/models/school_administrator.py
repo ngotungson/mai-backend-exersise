@@ -4,7 +4,7 @@ from .school import School
 
 class SchoolAdministrator(models.Model):
     name = models.CharField(max_length=255)
-    school = models.OneToOneField(School, on_delete=models.PROTECT, null=True)
+    school = models.ForeignKey(School, on_delete=models.PROTECT, blank=False, null=False)
 
     def __str__(self):
         return self.name
